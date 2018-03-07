@@ -244,8 +244,8 @@ public class MakeHaipai : MonoBehaviour {
         if (zihai)
         {
             var a = GetAnko(paisp1);
-            var to = GetToitu(a.pais);
-            list.Add(new int[] { a.anko,0,0,to.toitu });
+            var to = GetToitu(paisp1);
+            list.Add(new int[] { a,0,0,to });
             return list;
         }
 
@@ -257,13 +257,13 @@ public class MakeHaipai : MonoBehaviour {
         var s1 = GetSyuntu(paisp1);
         var ta1 = GetTatu(paisp1);
         var to1 = GetToitu(paisp1);
-        list.Add(new int[] { a1.anko, s1.syuntu, ta1.tatu, to1.toitu });
+        list.Add(new int[] { a1, s1, ta1, to1 });
         // 順子->暗刻->塔子->対子
         var s2 = GetSyuntu(paisp2);
         var a2 = GetAnko(paisp2);
         var ta2 = GetTatu(paisp2);
         var to2 = GetToitu(paisp2);
-        list.Add(new int[] { a2.anko, s2.syuntu, ta2.tatu, to2.toitu });
+        list.Add(new int[] { a2, s2, ta2, to2 });
         if (list[0][0] == list[1][0] &&
             list[0][1] == list[1][1] &&
             list[0][2] == list[1][2] &&
@@ -271,7 +271,7 @@ public class MakeHaipai : MonoBehaviour {
         {
             list.RemoveAt(1);
         }
-        if (a1.anko <= 1)
+        if (a1 <= 1)
         {
             return list;
         }
@@ -283,11 +283,11 @@ public class MakeHaipai : MonoBehaviour {
             var an3 = GetAnko(paisp3);
             var ta3 = GetTatu(paisp3);
             var to3 = GetToitu(paisp3);
-            list.Add(new int[] { an3.anko + 1, s3.syuntu, ta3.tatu, to3.toitu });
+            list.Add(new int[] { an3 + 1, s3, ta3, to3 });
             return list;
         }
     }
-    private dynamic GetSyuntu(List<int> pais)
+    private int GetSyuntu(List<int> pais)
     {
         int syuntu = 0;
         foreach (int pai in pais.ToArray())
@@ -301,13 +301,9 @@ public class MakeHaipai : MonoBehaviour {
                 pais.Remove(pai + 2);
             }
         }
-        return new
-        {
-            syuntu,
-            pais,
-        };
+        return syuntu;
     }
-    private dynamic GetAnko(List<int> pais, bool once = false)
+    private int GetAnko(List<int> pais, bool once = false)
     {
         int anko = 0;
         foreach (int pai in pais.ToArray())
@@ -322,13 +318,9 @@ public class MakeHaipai : MonoBehaviour {
                 if (once) break;
             }
         }
-        return new
-        {
-            anko,
-            pais,
-        };
+        return anko;
     }
-    private dynamic GetToitu(List<int> pais)
+    private int GetToitu(List<int> pais)
     {
         int toitu = 0;
         foreach (int pai in pais.ToArray())
@@ -341,13 +333,9 @@ public class MakeHaipai : MonoBehaviour {
                 pais.Remove(pai);
             }
         }
-        return new
-        {
-            toitu,
-            pais,
-        };
+        return toitu;
     }
-    private dynamic GetTatu(List<int> pais)
+    private int GetTatu(List<int> pais)
     {
         int tatu = 0;
         foreach (int pai in pais.ToArray())
@@ -363,11 +351,7 @@ public class MakeHaipai : MonoBehaviour {
                 }
             }
         }
-        return new
-        {
-            tatu,
-            pais,
-        };
+        return tatu;
     }
 
     // 孤立牌の除去
